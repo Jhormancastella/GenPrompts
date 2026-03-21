@@ -61,9 +61,6 @@ flowchart TD
 - Meta tags básicos en `index.html`.
 - `robots.txt` y `sitemap.xml` incluidos.
 
-## 🧾 Notas
-- Actualiza el enlace en la sección **web** con tu URL real.
-- Si quieres traducción completa de opciones, traduce `data.js`.
 
 ---
 © 2026 GPROMTS
