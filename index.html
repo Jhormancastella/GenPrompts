@@ -1,1 +1,861 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>nombre pendiente (genera promts para ia)</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #0f0f1a;
+    color: #e0e0e0;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  header {
+    text-align: center;
+    padding: 30px 0;
+    border-bottom: 2px solid #2a2a4a;
+    margin-bottom: 30px;
+  }
+
+  header h1 {
+    font-size: 2em;
+    background: linear-gradient(135deg, #ff6b6b, #ffa07a, #ffd700, #98fb98, #87ceeb, #dda0dd);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+
+  header p { color: #888; font-size: 0.95em; }
+
+  /* === SECCIONES === */
+  .section {
+    background: #1a1a2e;
+    border: 1px solid #2a2a4a;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    transition: border-color 0.3s;
+  }
+
+  .section:hover { border-color: #4a4a7a; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    cursor: pointer;
+  }
+
+  .section-header .icon { font-size: 1.4em; }
+
+  .section-header h2 {
+    font-size: 1.1em;
+    color: #ffa07a;
+    flex: 1;
+  }
+
+  .section-header .toggle-arrow {
+    color: #666;
+    transition: transform 0.3s;
+  }
+
+  .section-header .toggle-arrow.open { transform: rotate(180deg); }
+
+  /* === CONTROLES === */
+  .radio-group, .checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .radio-option, .checkbox-option {
+    position: relative;
+  }
+
+  .radio-option input, .checkbox-option input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .radio-option label, .checkbox-option label {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #252540;
+    border: 1px solid #3a3a5a;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85em;
+    transition: all 0.2s;
+    user-select: none;
+  }
+
+  .radio-option label:hover, .checkbox-option label:hover {
+    border-color: #6a6aaa;
+    background: #2d2d50;
+  }
+
+  .radio-option input:checked + label {
+    background: #ff6b6b;
+    border-color: #ff6b6b;
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .checkbox-option input:checked + label {
+    background: #4a90d9;
+    border-color: #4a90d9;
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .custom-input {
+    width: 100%;
+    padding: 10px 14px;
+    background: #252540;
+    border: 1px solid #3a3a5a;
+    border-radius: 8px;
+    color: #e0e0e0;
+    font-size: 0.9em;
+    margin-top: 8px;
+    transition: border-color 0.3s;
+  }
+
+  .custom-input:focus {
+    outline: none;
+    border-color: #ffa07a;
+  }
+
+  .custom-input::placeholder { color: #555; }
+
+  select {
+    width: 100%;
+    padding: 10px 14px;
+    background: #252540;
+    border: 1px solid #3a3a5a;
+    border-radius: 8px;
+    color: #e0e0e0;
+    font-size: 0.9em;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+  }
+
+  select:focus {
+    outline: none;
+    border-color: #ffa07a;
+  }
+
+  .sub-label {
+    font-size: 0.8em;
+    color: #888;
+    margin-bottom: 6px;
+    margin-top: 10px;
+  }
+
+  /* === BOTÓN GENERAR === */
+  .generate-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #ff6b6b, #ffa07a);
+    border: none;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 1.2em;
+    font-weight: 700;
+    cursor: pointer;
+    margin: 20px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .generate-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+  }
+
+  .generate-btn:active { transform: translateY(0); }
+
+  /* === OUTPUT === */
+  .output-section {
+    background: #1a1a2e;
+    border: 2px solid #2a2a4a;
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+  }
+
+  .output-section h3 {
+    color: #98fb98;
+    margin-bottom: 12px;
+    font-size: 1em;
+  }
+
+  #promptOutput {
+    background: #0f0f1a;
+    border: 1px solid #2a2a4a;
+    border-radius: 8px;
+    padding: 16px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85em;
+    line-height: 1.6;
+    color: #ddd;
+    min-height: 120px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  .copy-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 8px 20px;
+    background: #4a90d9;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.85em;
+    font-weight: 600;
+    transition: background 0.2s;
+  }
+
+  .copy-btn:hover { background: #3a7bc8; }
+  .copy-btn.copied { background: #98fb98; color: #0f0f1a; }
+
+  /* === NEGATIVE === */
+  #negativeOutput {
+    background: #1a0f0f;
+    border: 1px solid #4a2a2a;
+    border-radius: 8px;
+    padding: 16px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85em;
+    line-height: 1.6;
+    color: #ff8888;
+    margin-top: 12px;
+    white-space: pre-wrap;
+  }
+
+  .section-content { overflow: hidden; }
+  .tip { font-size:0.78em; color:#666; margin-top:6px; font-style:italic; }
+
+  @media (max-width: 600px) {
+    body { padding: 10px; }
+    header h1 { font-size: 1.5em; }
+    .radio-option label, .checkbox-option label {
+      padding: 6px 12px;
+      font-size: 0.8em;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>🎨 PROMPT GENERATOR PRO</h1>
+    <p>Genera prompts profesionales para imágenes con IA</p>
+  </header>
+
+  <!-- ========== SUJETO ========== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="icon">👤</span>
+      <h2>SUJETO</h2>
+    </div>
+    <div class="section-content">
+      <div class="radio-group">
+        <div class="radio-option">
+          <input type="radio" name="subject" id="subjectKeep" value="keep" checked>
+          <label for="subjectKeep">🔒 Mantener de referencia</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" name="subject" id="subjectCustom" value="custom">
+          <label for="subjectCustom">✏️ Personalizado</label>
+        </div>
+      </div>
+      <input type="text" class="custom-input" id="subjectText"
+             placeholder="Ej: A young woman with curly red hair wearing a leather jacket..."
+             disabled>
+      <p class="tip">🔒 = No modifica al sujeto de la imagen de referencia</p>
+    </div>
+  </div>
+
+  <!-- ========== FONDO ========== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="icon">🖼️</span>
+      <h2>FONDO / ESCENARIO</h2>
+    </div>
+    <div class="section-content">
+      <div class="radio-group">
+        <div class="radio-option">
+          <input type="radio" name="background" id="bgKeep" value="keep">
+          <label for="bgKeep">🔒 Mantener original</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" name="background" id="bgPreset" value="preset" checked>
+          <label for="bgPreset">🎭 Preset temático</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" name="background" id="bgCustom" value="custom">
+          <label for="bgCustom">✏️ Personalizado</label>
+        </div>
+      </div>
+
+      <div id="bgPresetOptions">
+        <select id="bgSelect">
+          <option value="">-- Seleccionar escenario --</option>
+          <optgroup label="🎃 Halloween / Terror">
+            <option value="Abandoned gothic cemetery at night, crumbling old tombstones covered in moss, twisted dead trees, rusty iron fence in the distance, dark purple-grey sky with a full moon partially hidden behind clouds">🪦 Cementerio gótico abandonado</option>
+            <option value="Dark haunted Victorian mansion, broken stained glass windows, overgrown dead garden, creaking wooden porch, bats flying in moonlit sky">🏚️ Mansión victoriana embrujada</option>
+            <option value="Eerie dark enchanted forest, twisted bare trees with claw-like branches, glowing eyes peering from shadows, ancient stone path covered in dead leaves, thick mist between trees">🌲 Bosque encantado oscuro</option>
+            <option value="Witch's lair interior, bubbling green cauldron, shelves filled with potion bottles and skulls, cobwebs everywhere, flickering candles, ancient spell books">🧙 Guarida de bruja</option>
+            <option value="Foggy cobblestone street at midnight, flickering gas lamps, dark silhouettes in distance, old brick buildings, Jack the Ripper atmosphere">🌫️ Calle victoriana con niebla</option>
+          </optgroup>
+          <optgroup label="🌸 Primavera / Naturaleza">
+            <option value="Lush blooming garden in soft afternoon light, cherry blossom trees in full bloom with petals gently falling, winding stone path bordered by lavender and wildflowers, rolling green hills under soft pastel blue sky with wispy clouds">🌸 Jardín de cerezos en flor</option>
+            <option value="Vibrant tulip field stretching to the horizon, rows of red yellow and purple tulips, old wooden windmill in the distance, bright blue sky with fluffy white clouds, butterfly flying nearby">🌷 Campo de tulipanes</option>
+            <option value="Enchanted fairy garden, oversized mushrooms with glowing spots, tiny fairy lights in the air, dewy flowers, soft mossy ground, magical golden sparkles floating">🍄 Jardín de hadas encantado</option>
+            <option value="Peaceful meadow with tall wildflowers swaying in breeze, single large oak tree with golden sunlight filtering through leaves, distant mountains with snow caps, clear stream reflecting sky">🌿 Pradera con roble solitario</option>
+          </optgroup>
+          <optgroup label="☃️ Invierno / Navidad">
+            <option value="Snow-covered pine forest at twilight, frozen lake reflecting purple sky, cozy wooden cabin with warm orange light in windows, gentle snowfall, smoke rising from chimney">🏔️ Bosque nevado con cabaña</option>
+            <option value="Christmas village at night, snow-covered rooftops, warm glowing street lamps, decorated Christmas tree in town square, horse-drawn sleigh in distance, gentle snowfall">🎄 Villa navideña</option>
+            <option value="Frozen enchanted castle on mountain peak, northern lights dancing in dark sky, ice crystals floating in air, frozen waterfall, deep blue and purple atmosphere">🏰 Castillo de hielo con auroras</option>
+          </optgroup>
+          <optgroup label="🏖️ Verano / Tropical">
+            <option value="Pristine turquoise beach at sunset, crystal clear water with visible coral reef, white sand with palm trees casting long shadows, distant tropical islands, golden sky with pink clouds">🏖️ Playa tropical al atardecer</option>
+            <option value="Tropical jungle waterfall cascading into emerald pool, lush green vegetation, exotic colorful flowers, sunbeams piercing through canopy, mist rising from water">🌴 Cascada en jungla tropical</option>
+          </optgroup>
+          <optgroup label="🌆 Urbano / Futurista">
+            <option value="Neon-lit cyberpunk city alley at night, holographic billboards in Japanese and English, wet reflective streets, towering dark skyscrapers, flying vehicles in distance, steam rising from vents">🌃 Ciudad cyberpunk neón</option>
+            <option value="Rainy Tokyo street at night, colorful neon signs reflecting on wet pavement, busy crosswalk with umbrellas, steam from food stalls, cinematic urban atmosphere">🗼 Calle de Tokyo lluviosa</option>
+            <option value="Futuristic space station interior, large window showing Earth from orbit, holographic displays, sleek white and blue architecture, ambient LED lighting, zero gravity particles floating">🚀 Estación espacial</option>
+          </optgroup>
+          <optgroup label="🏛️ Elegante / Clásico">
+            <option value="Grand European library with floor-to-ceiling bookshelves, warm ambient lighting, rolling wooden ladders, leather armchairs, golden afternoon light streaming through tall arched windows, dust particles in light">📚 Gran biblioteca europea</option>
+            <option value="Opulent Versailles-style palace ballroom, crystal chandeliers, gold-trimmed walls with Renaissance paintings, polished marble floor reflecting light, grand staircase">👑 Salón de palacio Versalles</option>
+            <option value="Ancient Greek temple ruins at golden hour, tall marble columns with ivy, Mediterranean sea in background, warm sunlight casting long shadows, wildflowers growing between stones">🏛️ Ruinas de templo griego</option>
+          </optgroup>
+          <optgroup label="🍂 Otoño">
+            <option value="Forest path covered in golden and red fallen leaves, tall maple and oak trees with autumn foliage, old wooden bridge over gentle stream, misty distance, warm dappled light through canopy">🍂 Sendero de otoño</option>
+            <option value="Cozy countryside cottage with thatched roof, surrounded by autumn trees in red orange and gold, pumpkin patch in front yard, stone wall with climbing ivy turning red, smoke from chimney">🏡 Cabaña de campo otoñal</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <input type="text" class="custom-input" id="bgText"
+             placeholder="Describe el fondo con detalle: lugar, elementos, hora del día..."
+             style="display:none">
+    </div>
+  </div>
+
+  <!-- ========== ATMÓSFERA ========== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="icon">🌫️</span>
+      <h2>ATMÓSFERA / EFECTOS</h2>
+    </div>
+    <div class="section-content">
+      <p class="sub-label">Selecciona uno o más efectos (multi-selección):</p>
+      <div class="checkbox-group">
+        <div class="checkbox-option">
+          <input type="checkbox" id="atmoFog" value="soft low-lying fog creeping along the ground, concentrated at feet level, thin and translucent">
+          <label for="atmoFog">🌫️ Niebla baja</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="atmoPetals" value="delicate flower petals floating gently in the air around the subject">
+          <label for="atmoPetals">🌸 Pétalos flotantes</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="atmoSnow" value="gentle snowflakes falling softly around the subject, frost on nearby surfaces">
+          <label for="atmoSnow">❄️ Nieve cayendo</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="atmoRain" value="light rain with droplets visible in the light, wet reflective surfaces, rain streaks">
+          <label for="atmoRain">🌧️ Lluvia suave</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="atmoFireflies" value="magical fireflies and glowing particles floating in the air">
+          <label for="atmoFireflies">✨ Luciérnagas / Partículas</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="atmoDust" value="visible dust particles dancing in the light beams">
+          <label for="atmoDust">💫 Polvo en luz</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="atmoLeaves" value="autumn leaves gently falling and swirling in a light breeze">
+          <label for="atmoLeaves">🍂 Hojas cayendo</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="atmoSteam" value="atmospheric steam and haze rising from the ground">
+          <label for="atmoSteam">♨️ Vapor / Haze</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="atmoSparks" value="magical golden sparks and embers floating upward">
+          <label for="atmoSparks">🔥 Chispas / Brasas</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="atmoBokeh" value="beautiful bokeh light orbs in the background">
+          <label for="atmoBokeh">💡 Bokeh lights</label>
+        </div>
+      </div>
+      <input type="text" class="custom-input" id="atmoCustom"
+             placeholder="(Opcional) Añade efectos adicionales personalizados...">
+    </div>
+  </div>
+
+  <!-- ========== ILUMINACIÓN ========== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="icon">💡</span>
+      <h2>ILUMINACIÓN</h2>
+    </div>
+    <div class="section-content">
+      <p class="sub-label">Luz principal (key light):</p>
+      <select id="keyLight">
+        <option value="">-- Seleccionar --</option>
+        <option value="warm golden hour sunlight from the right">☀️ Golden hour (cálida)</option>
+        <option value="cold blue moonlight from above">🌙 Luz de luna fría</option>
+        <option value="soft natural window light from the left">🪟 Luz natural de ventana</option>
+        <option value="dramatic side lighting from the left creating deep shadows">🎭 Luz lateral dramática</option>
+        <option value="bright overhead tropical sunlight">🌤️ Sol cenital brillante</option>
+        <option value="soft overcast diffused light from cloudy sky">☁️ Luz difusa nublada</option>
+        <option value="neon colored light from signs and screens">💜 Luz neón urbana</option>
+        <option value="warm candlelight and firelight">🕯️ Luz de vela/fuego</option>
+        <option value="Rembrandt lighting with key light at 45 degrees creating triangle on cheek">🎨 Rembrandt lighting</option>
+        <option value="butterfly lighting from above creating shadow under nose">🦋 Butterfly lighting</option>
+      </select>
+
+      <p class="sub-label">Técnica de iluminación:</p>
+      <div class="checkbox-group">
+        <div class="checkbox-option">
+          <input type="checkbox" id="lightRim" value="warm rim light from behind the subject">
+          <label for="lightRim">✨ Rim light (contra)</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="lightVol" value="soft volumetric light rays visible in the atmosphere">
+          <label for="lightVol">🌅 Rayos volumétricos</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="lightHighKey" value="high-key lighting with minimal shadows, bright and airy">
+          <label for="lightHighKey">💡 High-key (brillante)</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="lightLowKey" value="low-key lighting with deep shadows and selective highlights">
+          <label for="lightLowKey">🌑 Low-key (oscuro)</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="lightFlare" value="gentle lens flare from light source">
+          <label for="lightFlare">🌟 Lens flare</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="lightChiaroscuro" value="chiaroscuro lighting with strong contrast between light and dark">
+          <label for="lightChiaroscuro">🎭 Chiaroscuro</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="lightDappled" value="dappled light pattern through leaves or branches">
+          <label for="lightDappled">🍃 Luz filtrada por hojas</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== ESTILO Y CALIDAD ========== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="icon">📸</span>
+      <h2>ESTILO Y CALIDAD</h2>
+    </div>
+    <div class="section-content">
+      <p class="sub-label">Medio / Estilo visual:</p>
+      <select id="styleSelect">
+        <option value="hyperrealistic photography">📷 Fotografía hiperrealista</option>
+        <option value="cinematic film still">🎬 Cine (film still)</option>
+        <option value="editorial fashion photography">👗 Fotografía editorial</option>
+        <option value="fine art portrait photography">🖼️ Retrato artístico</option>
+        <option value="documentary photography">📰 Fotografía documental</option>
+        <option value="digital oil painting, highly detailed brushstrokes">🎨 Pintura digital al óleo</option>
+        <option value="watercolor illustration with soft edges">🖌️ Ilustración acuarela</option>
+        <option value="3D render, octane render, highly detailed">💻 Render 3D (Octane)</option>
+        <option value="anime style, detailed anime illustration">🇯🇵 Anime</option>
+        <option value="dark fantasy art, highly detailed digital painting">⚔️ Fantasy art</option>
+        <option value="concept art, matte painting style">🎮 Concept art</option>
+        <option value="vintage film photograph, Kodak Portra 400 film grain">📼 Foto vintage (film)</option>
+      </select>
+
+      <p class="sub-label">Cámara (para estilos fotográficos):</p>
+      <select id="cameraSelect">
+        <option value="shot on Canon EOS R5">Canon EOS R5</option>
+        <option value="shot on Sony A7R IV">Sony A7R IV</option>
+        <option value="shot on Nikon Z9">Nikon Z9</option>
+        <option value="shot on Hasselblad X2D">Hasselblad X2D</option>
+        <option value="shot on Fujifilm GFX 100S">Fujifilm GFX 100S</option>
+        <option value="">Sin especificar</option>
+      </select>
+
+      <p class="sub-label">Lente:</p>
+      <select id="lensSelect">
+        <option value="85mm f/1.4 lens, shallow depth of field">85mm f/1.4 (retrato, bokeh)</option>
+        <option value="50mm f/1.2 lens, natural perspective">50mm f/1.2 (natural)</option>
+        <option value="35mm f/1.4 lens, slightly wide perspective">35mm f/1.4 (semi-angular)</option>
+        <option value="135mm f/2 lens, compressed background, beautiful bokeh">135mm f/2 (compresión)</option>
+        <option value="24mm f/2.8 wide-angle lens, expansive view">24mm f/2.8 (gran angular)</option>
+        <option value="100mm macro lens, extreme detail">100mm macro (detalle extremo)</option>
+      </select>
+
+      <p class="sub-label">Resolución y calidad:</p>
+      <div class="checkbox-group">
+        <div class="checkbox-option">
+          <input type="checkbox" id="qual8k" value="8K resolution" checked>
+          <label for="qual8k">8K</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="qualUltra" value="ultra detailed" checked>
+          <label for="qualUltra">Ultra detailed</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="qualRaw" value="RAW photo" checked>
+          <label for="qualRaw">RAW photo</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="qualSharp" value="sharp focus on subject" checked>
+          <label for="qualSharp">Sharp focus</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="qualCinematic" value="cinematic color grading">
+          <label for="qualCinematic">Cinematic grading</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="qualSkin" value="natural skin texture, detailed pores">
+          <label for="qualSkin">Skin texture</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== PALETA DE COLORES ========== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="icon">🎨</span>
+      <h2>PALETA DE COLORES</h2>
+    </div>
+    <div class="section-content">
+      <select id="paletteSelect">
+        <option value="">-- Seleccionar paleta --</option>
+        <option value="desaturated cool tones, deep teals and blues, selective warm orange accents">🎃 Halloween (teals, naranjas fríos)</option>
+        <option value="soft pastel tones, blush pink, peach, fresh greens, warm golden accents, lavender">🌸 Primavera (pasteles cálidos)</option>
+        <option value="cool whites, icy blues, warm amber accents, deep forest greens, silver highlights">❄️ Invierno (azules helados)</option>
+        <option value="vivid turquoise and aqua, warm golden sand, lush greens, coral accents">🏖️ Tropical (vibrante)</option>
+        <option value="deep blacks, electric cyan, hot magenta, purple neon accents, cold steel greys">🌃 Cyberpunk (neón)</option>
+        <option value="rich burnt orange, deep crimson, warm gold, chocolate brown, olive green">🍂 Otoño (cálidos terrosos)</option>
+        <option value="warm golden tones, honey amber, soft cream, touches of burgundy">🍯 Golden warm (miel)</option>
+        <option value="monochromatic blue palette, varying shades from navy to sky blue">💙 Monocromático azul</option>
+        <option value="black and white with selective color accents">⚫ B&W con color selectivo</option>
+        <option value="muted earth tones, sage green, terracotta, warm beige, dusty rose">🌿 Earth tones (natural)</option>
+        <option value="teal and orange cinematic color grading, complementary contrast">🎬 Teal & Orange (cine)</option>
+        <option value="dreamy lavender, soft purple, misty blue, ethereal white">💜 Dreamy lavender</option>
+      </select>
+      <input type="text" class="custom-input" id="paletteCustom"
+             placeholder="(Opcional) Personaliza o añade colores específicos...">
+    </div>
+  </div>
+
+  <!-- ========== MOOD ========== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="icon">💭</span>
+      <h2>MOOD / ESTADO DE ÁNIMO</h2>
+    </div>
+    <div class="section-content">
+      <p class="sub-label">Selecciona uno o más (multi-selección):</p>
+      <div class="checkbox-group">
+        <div class="checkbox-option">
+          <input type="checkbox" id="moodEerie" value="eerie">
+          <label for="moodEerie">👻 Eerie (inquietante)</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="moodMysterious" value="mysterious">
+          <label for="moodMysterious">🔮 Mysterious</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="moodRomantic" value="romantic">
+          <label for="moodRomantic">💕 Romantic</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="moodSerene" value="serene and peaceful">
+          <label for="moodSerene">🕊️ Serene</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="moodDramatic" value="dramatic and intense">
+          <label for="moodDramatic">🎭 Dramatic</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="moodJoyful" value="joyful and vibrant">
+          <label for="moodJoyful">😊 Joyful</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="moodNostalgic" value="nostalgic and warm">
+          <label for="moodNostalgic">📷 Nostalgic</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="moodElegant" value="elegant and sophisticated">
+          <label for="moodElegant">👑 Elegant</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="moodEpic" value="epic and cinematic">
+          <label for="moodEpic">🎬 Epic</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="moodDreamy" value="dreamy and ethereal">
+          <label for="moodDreamy">💫 Dreamy</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="moodDark" value="dark and moody">
+          <label for="moodDark">🖤 Dark & Moody</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="moodMagical" value="magical and enchanting">
+          <label for="moodMagical">✨ Magical</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== FORMATO ========== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="icon">📐</span>
+      <h2>FORMATO Y RELACIÓN DE ASPECTO</h2>
+    </div>
+    <div class="section-content">
+      <div class="radio-group">
+        <div class="radio-option">
+          <input type="radio" name="aspect" id="ar11" value="--ar 1:1">
+          <label for="ar11">⬜ 1:1</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" name="aspect" id="ar34" value="--ar 3:4" checked>
+          <label for="ar34">📱 3:4</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" name="aspect" id="ar43" value="--ar 4:3">
+          <label for="ar43">🖥️ 4:3</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" name="aspect" id="ar916" value="--ar 9:16">
+          <label for="ar916">📱 9:16</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" name="aspect" id="ar169" value="--ar 16:9">
+          <label for="ar169">🎬 16:9</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" name="aspect" id="ar219" value="--ar 21:9">
+          <label for="ar219">🎞️ 21:9 Ultra</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== PLATAFORMA ========== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="icon">⚙️</span>
+      <h2>PLATAFORMA DESTINO</h2>
+    </div>
+    <div class="section-content">
+      <div class="radio-group">
+        <div class="radio-option">
+          <input type="radio" name="platform" id="platMJ" value="midjourney" checked>
+          <label for="platMJ">Midjourney</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" name="platform" id="platSD" value="stable">
+          <label for="platSD">Stable Diffusion</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" name="platform" id="platDalle" value="dalle">
+          <label for="platDalle">DALL-E</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" name="platform" id="platGeneric" value="generic">
+          <label for="platGeneric">Genérico</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== BOTÓN GENERAR ========== -->
+  <button class="generate-btn" onclick="generatePrompt()">
+    ✨ GENERAR PROMPT ✨
+  </button>
+
+  <!-- ========== OUTPUT ========== -->
+  <div class="output-section">
+    <h3>📋 PROMPT GENERADO</h3>
+    <button class="copy-btn" onclick="copyPrompt()">📋 Copiar</button>
+    <div id="promptOutput">Selecciona las opciones y presiona "Generar Prompt"...</div>
+    <div id="negativeOutput" style="display:none"></div>
+  </div>
+
+</div>
+
+<script>
+  // Toggle subject input
+  document.querySelectorAll('input[name="subject"]').forEach(r => {
+    r.addEventListener('change', () => {
+      document.getElementById('subjectText').disabled = r.value !== 'custom';
+    });
+  });
+
+  // Toggle background options
+  document.querySelectorAll('input[name="background"]').forEach(r => {
+    r.addEventListener('change', () => {
+      const v = document.querySelector('input[name="background"]:checked').value;
+      document.getElementById('bgPresetOptions').style.display = v === 'preset' ? 'block' : 'none';
+      document.getElementById('bgText').style.display = v === 'custom' ? 'block' : 'none';
+    });
+  });
+
+  function getCheckedValues(selector) {
+    return Array.from(document.querySelectorAll(selector + ':checked')).map(el => el.value);
+  }
+
+  function generatePrompt() {
+    let parts = [];
+
+    // SUBJECT
+    const subjectMode = document.querySelector('input[name="subject"]:checked').value;
+    if (subjectMode === 'keep') {
+      parts.push("Same person, same face, same pose, same expression, same clothing, same body position, untouched.");
+    } else {
+      const customSubject = document.getElementById('subjectText').value.trim();
+      if (customSubject) parts.push(customSubject + ".");
+    }
+
+    // BACKGROUND
+    const bgMode = document.querySelector('input[name="background"]:checked').value;
+    if (bgMode === 'keep') {
+      parts.push("Keep original background unchanged.");
+    } else if (bgMode === 'preset') {
+      const bgVal = document.getElementById('bgSelect').value;
+      if (bgVal) parts.push("Background: " + bgVal + ".");
+    } else {
+      const bgCustom = document.getElementById('bgText').value.trim();
+      if (bgCustom) parts.push("Background: " + bgCustom + ".");
+    }
+
+    // ATMOSPHERE
+    const atmoEffects = getCheckedValues('.section:nth-child(4) input[type="checkbox"]');
+    const atmoCustom = document.getElementById('atmoCustom').value.trim();
+    let atmoAll = [...atmoEffects];
+    if (atmoCustom) atmoAll.push(atmoCustom);
+    if (atmoAll.length > 0) {
+      parts.push("Atmosphere: " + atmoAll.join(", ") + ".");
+    }
+
+    // LIGHTING
+    const keyLight = document.getElementById('keyLight').value;
+    const lightEffects = getCheckedValues('.section:nth-child(5) input[type="checkbox"]');
+    let lightAll = [];
+    if (keyLight) lightAll.push(keyLight + " as key light");
+    lightAll = lightAll.concat(lightEffects);
+    if (lightAll.length > 0) {
+      parts.push("Lighting: " + lightAll.join(", ") + ".");
+    }
+
+    // STYLE & QUALITY
+    const style = document.getElementById('styleSelect').value;
+    const camera = document.getElementById('cameraSelect').value;
+    const lens = document.getElementById('lensSelect').value;
+    const qualityOpts = getCheckedValues('.section:nth-child(6) input[type="checkbox"]');
+
+    let styleAll = [style];
+    if (camera) styleAll.push(camera);
+    if (lens) styleAll.push(lens);
+    styleAll = styleAll.concat(qualityOpts);
+    parts.push(styleAll.join(", ") + ".");
+
+    // COLOR PALETTE
+    const palette = document.getElementById('paletteSelect').value;
+    const paletteCustom = document.getElementById('paletteCustom').value.trim();
+    let colorAll = [];
+    if (palette) colorAll.push(palette);
+    if (paletteCustom) colorAll.push(paletteCustom);
+    if (colorAll.length > 0) {
+      parts.push("Color palette: " + colorAll.join(", ") + ".");
+    }
+
+    // MOOD
+    const moods = getCheckedValues('.section:nth-child(8) input[type="checkbox"]');
+    if (moods.length > 0) {
+      parts.push("Mood: " + moods.join(", ") + ".");
+    }
+
+    // ASPECT RATIO & PLATFORM
+    const platform = document.querySelector('input[name="platform"]:checked').value;
+    const aspect = document.querySelector('input[name="aspect"]:checked').value;
+
+    let finalPrompt = parts.join("\n\n");
+
+    if (platform === 'midjourney') {
+      finalPrompt += "\n\n" + aspect + " --q 2 --s 750 --v 6.1";
+    }
+
+    document.getElementById('promptOutput').textContent = finalPrompt;
+
+    // NEGATIVE PROMPT
+    const negOutput = document.getElementById('negativeOutput');
+    if (platform === 'stable') {
+      negOutput.style.display = 'block';
+      let negParts = ["deformed face, altered facial features, changed clothing, different pose"];
+      negParts.push("blurry, low quality, oversaturated, watermark, text");
+      negParts.push("cartoon, anime, illustration, painting, drawing");
+      negParts.push("extra fingers, extra limbs, disfigured, bad anatomy");
+      negOutput.textContent = "⛔ NEGATIVE PROMPT:\n" + negParts.join(", ");
+    } else if (platform === 'midjourney') {
+      negOutput.style.display = 'block';
+      negOutput.textContent = "⛔ NEGATIVE (usar --no):\n--no deformed face, altered features, cartoon, blurry, text, watermark";
+    } else {
+      negOutput.style.display = 'none';
+    }
+  }
+
+  function copyPrompt() {
+    const text = document.getElementById('promptOutput').textContent;
+    const neg = document.getElementById('negativeOutput').textContent;
+    const fullText = neg ? text + "\n\n" + neg : text;
+
+    navigator.clipboard.writeText(fullText).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      btn.textContent = '✅ ¡Copiado!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = '📋 Copiar';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+</script>
+
+</body>
+</html>
