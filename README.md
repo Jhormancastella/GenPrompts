@@ -130,6 +130,6 @@ Si tienes preguntas o sugerencias, no dudes en abrir un issue en el repositorio 
 
 ---
 
-© 2025 GPROMTS – Hecho con ❤️ para la comunidad de IA generativa.
+© 2026 GPROMTS – Hecho con ❤️ para la comunidad de IA generativa.
 
 ```
