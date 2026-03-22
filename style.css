@@ -1,4 +1,4 @@
-﻿/* Gpromts styles */
+/* Gpromts styles */
 :root {
   --bg: #0f0f1a;
   --panel: #1a1a2e;
@@ -286,10 +286,55 @@ select:focus { outline: none; border-color: var(--accent-2); }
   position: relative;
 }
 
-.output-section h3 {
-  color: var(--green);
+.output-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
   margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.output-header h3 {
+  color: var(--green);
+  margin-bottom: 0;
   font-size: 1em;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.output-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.translate-tip-btn {
+  padding: 8px 14px;
+  background: var(--chip);
+  border: 1px solid var(--chip-border);
+  border-radius: 8px;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.85em;
+  font-weight: 600;
+  transition: border-color 0.2s, background 0.2s;
+  white-space: nowrap;
+}
+
+.translate-tip-btn:hover {
+  border-color: var(--accent-2);
+  background: var(--toggle-bg);
+}
+
+.translate-tip-btn:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 2px;
+}
+
+.translate-tip-btn[hidden] {
+  display: none;
 }
 
 #promptOutput {
@@ -320,9 +365,6 @@ select:focus { outline: none; border-color: var(--accent-2); }
 }
 
 .copy-btn {
-  position: absolute;
-  top: 16px;
-  right: 16px;
   padding: 8px 20px;
   background: var(--blue);
   border: none;
@@ -332,6 +374,11 @@ select:focus { outline: none; border-color: var(--accent-2); }
   font-size: 0.85em;
   font-weight: 600;
   transition: background 0.2s;
+}
+
+.copy-btn:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 2px;
 }
 
 .copy-btn:hover { background: #3a7bc8; }
@@ -360,10 +407,88 @@ select:focus { outline: none; border-color: var(--accent-2); }
   color: #cfcfe8;
 }
 
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-overlay[hidden] {
+  display: none;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.modal-panel {
+  position: relative;
+  z-index: 1;
+  max-width: 480px;
+  width: 100%;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  padding: 20px 22px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+.modal-panel h4 {
+  font-size: 1.05em;
+  margin-bottom: 12px;
+  color: var(--text);
+  line-height: 1.35;
+}
+
+.modal-panel p {
+  font-size: 0.9em;
+  line-height: 1.55;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+
+.modal-close-btn {
+  width: 100%;
+  padding: 10px 16px;
+  background: var(--blue);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.95em;
+  transition: background 0.2s;
+}
+
+.modal-close-btn:hover {
+  background: #3a7bc8;
+}
+
+.modal-close-btn:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 2px;
+}
+
 @media (max-width: 600px) {
   body { padding: 10px; }
   header { flex-direction: column; text-align: center; }
   header h1 { font-size: 1.5em; }
   .header-actions { flex-direction: row; margin-left: 0; }
   .radio-option label, .checkbox-option label { padding: 6px 12px; font-size: 0.8em; }
+  .output-actions {
+    width: 100%;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+  .translate-tip-btn {
+    white-space: normal;
+    text-align: center;
+    line-height: 1.3;
+  }
 }

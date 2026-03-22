@@ -1,4 +1,4 @@
-﻿(function () {
+(function () {
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
@@ -53,7 +53,12 @@
       output_title: '📋 PROMPT GENERADO',
       output_hint: 'Selecciona las opciones y presiona "Generar Prompt"...',
       copy_btn: 'Copiar',
-      negative_label: 'NEGATIVE:'
+      negative_label: 'NEGATIVO:',
+      translate_tip_btn: '🌐 Traducir para más precisión',
+      translate_tip_title: '¿Traducir el prompt al inglés?',
+      translate_tip_body:
+        'El prompt ya se genera en español cuando la web está en español. Si tu herramienta de IA da mejores resultados en inglés, copia el texto, tradúcelo (DeepL, Google Translate, etc.) y pégalo en el generador.',
+      translate_tip_close: 'Entendido'
     },
     en: {
       slogan: 'Master AI, don’t wrestle with it. Precise prompts for epic results.',
@@ -97,9 +102,68 @@
       output_title: '📋 GENERATED PROMPT',
       output_hint: 'Choose options and press “Generate Prompt”...',
       copy_btn: 'Copy',
-      negative_label: 'NEGATIVE:'
+      negative_label: 'NEGATIVE:',
+      translate_tip_btn: '🌐 Translate for precision',
+      translate_tip_title: 'Translate your prompt for best results',
+      translate_tip_body:
+        'Many image models respond best to English prompts. Copy the generated text, translate it with DeepL, Google Translate, or similar, then paste it into your generator for more predictable results.',
+      translate_tip_close: 'Got it'
     }
   };
+
+  let translateModalPreviousFocus = null;
+
+  /** Textos del prompt generado según idioma (valores de data.js se resuelven con valueEs). */
+  const PROMPT = {
+    es: {
+      subject_keep:
+        'Misma persona, mismo rostro, misma pose, misma expresión, misma ropa, misma posición corporal, sin cambios.',
+      bg_keep: 'Mantener el fondo original sin modificar.',
+      bg_prefix: 'Fondo:',
+      atmo_prefix: 'Atmósfera:',
+      light_prefix: 'Iluminación:',
+      key_light_suffix: ' como luz principal',
+      color_prefix: 'Paleta de color:',
+      mood_prefix: 'Estado de ánimo:',
+      platform_midjourney_extra: ' --q 2 --s 750 --v 6.1',
+      platform_stable_line: 'Pasos: 30-40, CFG 6-8, Sampler: DPM++ 2M Karras, ',
+      platform_dalle: 'Mantén el prompt claro y concreto. Evita jerga de cámara u objetivo si confunde al modelo.',
+      platform_generic: 'Genérico: prompt conciso y descriptivo en términos visuales.',
+      negative_stable:
+        'rostro deforme, rasgos faciales alterados, ropa cambiada, pose distinta, borroso, baja calidad, sobresaturado, marca de agua, texto, cartoon, anime, ilustración, pintura, dibujo, dedos extra, extremidades extra, desfigurado, anatomía incorrecta',
+      negative_midjourney: '--no rostro deforme, rasgos alterados, cartoon, borroso, texto, marca de agua, extremidades extra'
+    },
+    en: {
+      subject_keep:
+        'Same person, same face, same pose, same expression, same clothing, same body position, untouched.',
+      bg_keep: 'Keep original background unchanged.',
+      bg_prefix: 'Background:',
+      atmo_prefix: 'Atmosphere:',
+      light_prefix: 'Lighting:',
+      key_light_suffix: ' as key light',
+      color_prefix: 'Color palette:',
+      mood_prefix: 'Mood:',
+      platform_midjourney_extra: ' --q 2 --s 750 --v 6.1',
+      platform_stable_line: 'Steps: 30-40, CFG 6-8, Sampler: DPM++ 2M Karras, ',
+      platform_dalle: 'Keep prompt clean and specific. Avoid camera or lens jargon if it confuses the model.',
+      platform_generic: 'Generic: keep the prompt concise and visually descriptive.',
+      negative_stable:
+        'deformed face, altered facial features, changed clothing, different pose, blurry, low quality, oversaturated, watermark, text, cartoon, anime, illustration, painting, drawing, extra fingers, extra limbs, disfigured, bad anatomy',
+      negative_midjourney: '--no deformed face, altered features, cartoon, blurry, text, watermark, extra limbs'
+    }
+  };
+
+  function promptValue(opt) {
+    if (!opt || typeof opt.value === 'undefined') return '';
+    if (state.lang === 'es' && 'valueEs' in opt) {
+      return opt.valueEs;
+    }
+    return opt.value;
+  }
+
+  function optionPair(opt) {
+    return { value: promptValue(opt), label: opt.label };
+  }
 
   function setSubjectInputState() {
     const subjectMode = $('input[name="subject"]:checked').value;
@@ -126,11 +190,12 @@
   }
 
   function buildPrompt() {
+    const P = PROMPT[state.lang] || PROMPT.en;
     const parts = [];
 
     const subjectMode = $('input[name="subject"]:checked').value;
     if (subjectMode === 'keep') {
-      parts.push('Same person, same face, same pose, same expression, same clothing, same body position, untouched.');
+      parts.push(P.subject_keep);
     } else {
       const customSubject = $('#subjectText').value.trim();
       if (customSubject) parts.push(customSubject + '.');
@@ -138,27 +203,27 @@
 
     const bgMode = $('input[name="background"]:checked').value;
     if (bgMode === 'keep') {
-      parts.push('Keep original background unchanged.');
+      parts.push(P.bg_keep);
     } else if (bgMode === 'preset') {
       const bgVal = $('#bgSelect').value;
-      if (bgVal) parts.push('Background: ' + bgVal + '.');
+      if (bgVal) parts.push(P.bg_prefix + ' ' + bgVal + '.');
     } else {
       const bgCustom = $('#bgText').value.trim();
-      if (bgCustom) parts.push('Background: ' + bgCustom + '.');
+      if (bgCustom) parts.push(P.bg_prefix + ' ' + bgCustom + '.');
     }
 
     const atmoEffects = getCheckedValues('[data-group="atmosphere"] input[type="checkbox"]');
     const atmoCustom = $('#atmoCustom').value.trim();
     const atmoAll = atmoCustom ? atmoEffects.concat([atmoCustom]) : atmoEffects;
-    const atmoSentence = joinSentence('Atmosphere:', atmoAll);
+    const atmoSentence = joinSentence(P.atmo_prefix, atmoAll);
     if (atmoSentence) parts.push(atmoSentence);
 
     const keyLight = $('#keyLight').value;
     const lightEffects = getCheckedValues('[data-group="lighting"] input[type="checkbox"]');
     const lightAll = [];
-    if (keyLight) lightAll.push(keyLight + ' as key light');
+    if (keyLight) lightAll.push(keyLight + P.key_light_suffix);
     lightAll.push(...lightEffects);
-    const lightSentence = joinSentence('Lighting:', lightAll);
+    const lightSentence = joinSentence(P.light_prefix, lightAll);
     if (lightSentence) parts.push(lightSentence);
 
     const style = $('#styleSelect').value;
@@ -177,11 +242,11 @@
     const colorAll = [];
     if (palette) colorAll.push(palette);
     if (paletteCustom) colorAll.push(paletteCustom);
-    const colorSentence = joinSentence('Color palette:', colorAll);
+    const colorSentence = joinSentence(P.color_prefix, colorAll);
     if (colorSentence) parts.push(colorSentence);
 
     const moods = getCheckedValues('[data-group="mood"] input[type="checkbox"]');
-    const moodSentence = joinSentence('Mood:', moods);
+    const moodSentence = joinSentence(P.mood_prefix, moods);
     if (moodSentence) parts.push(moodSentence);
 
     return parts.join('\n\n');
@@ -189,24 +254,26 @@
 
   function platformParams(platform) {
     const aspect = $('input[name="aspect"]:checked').value;
+    const P = PROMPT[state.lang] || PROMPT.en;
     if (platform === 'midjourney') {
-      return aspect + ' --q 2 --s 750 --v 6.1';
+      return aspect + P.platform_midjourney_extra;
     }
     if (platform === 'stable') {
-      return 'Steps: 30-40, CFG 6-8, Sampler: DPM++ 2M Karras, ' + aspect.replace('--ar', 'AR');
+      return P.platform_stable_line + aspect.replace('--ar', 'AR');
     }
     if (platform === 'dalle') {
-      return 'Keep prompt clean and specific. Avoid camera or lens jargon if it confuses the model.';
+      return P.platform_dalle;
     }
-    return 'Generic: keep the prompt concise and visually descriptive.';
+    return P.platform_generic;
   }
 
   function buildNegative(platform) {
+    const P = PROMPT[state.lang] || PROMPT.en;
     if (platform === 'stable') {
-      return 'deformed face, altered facial features, changed clothing, different pose, blurry, low quality, oversaturated, watermark, text, cartoon, anime, illustration, painting, drawing, extra fingers, extra limbs, disfigured, bad anatomy';
+      return P.negative_stable;
     }
     if (platform === 'midjourney') {
-      return '--no deformed face, altered features, cartoon, blurry, text, watermark, extra limbs';
+      return P.negative_midjourney;
     }
     return '';
   }
@@ -294,7 +361,10 @@
     if (placeholder) {
       selectEl.appendChild(createOption('', placeholder));
     }
-    options.forEach((opt) => selectEl.appendChild(createOption(opt.value, opt.label)));
+    options.forEach((opt) => {
+      const pair = optionPair(opt);
+      selectEl.appendChild(createOption(pair.value, pair.label));
+    });
   }
 
   function renderGroupedSelect(selectEl, groups, placeholder) {
@@ -305,7 +375,10 @@
     groups.forEach((group) => {
       const og = document.createElement('optgroup');
       og.label = group.label;
-      group.options.forEach((opt) => og.appendChild(createOption(opt.value, opt.label)));
+      group.options.forEach((opt) => {
+        const pair = optionPair(opt);
+        og.appendChild(createOption(pair.value, pair.label));
+      });
       selectEl.appendChild(og);
     });
   }
@@ -336,7 +409,7 @@
       const input = document.createElement('input');
       input.type = 'checkbox';
       input.id = item.id;
-      input.value = item.value;
+      input.value = promptValue(item);
       if (item.checked) input.checked = true;
 
       const label = document.createElement('label');
@@ -443,6 +516,47 @@
       const key = el.getAttribute('data-i18n-placeholder');
       if (dict[key]) el.setAttribute('placeholder', dict[key]);
     });
+    const tipBtn = $('#translateTipBtn');
+    if (tipBtn) tipBtn.hidden = state.lang !== 'es';
+  }
+
+  function openTranslateModal() {
+    const modal = $('#translateTipModal');
+    if (!modal || !modal.hasAttribute('hidden')) return;
+    translateModalPreviousFocus = document.activeElement;
+    modal.removeAttribute('hidden');
+    document.body.style.overflow = 'hidden';
+    const closeBtn = $('#translateTipCloseBtn');
+    if (closeBtn) closeBtn.focus();
+  }
+
+  function closeTranslateModal() {
+    const modal = $('#translateTipModal');
+    if (!modal || modal.hasAttribute('hidden')) return;
+    modal.setAttribute('hidden', '');
+    document.body.style.overflow = '';
+    if (translateModalPreviousFocus && typeof translateModalPreviousFocus.focus === 'function') {
+      translateModalPreviousFocus.focus();
+    }
+    translateModalPreviousFocus = null;
+  }
+
+  function bindTranslateTipModal() {
+    const btn = $('#translateTipBtn');
+    const modal = $('#translateTipModal');
+    if (!btn || !modal) return;
+
+    btn.addEventListener('click', () => openTranslateModal());
+
+    modal.querySelectorAll('[data-close-modal]').forEach((el) => {
+      el.addEventListener('click', () => closeTranslateModal());
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modal.hasAttribute('hidden')) {
+        closeTranslateModal();
+      }
+    });
   }
 
   function setActiveToggle(selector, value, attr) {
@@ -459,6 +573,7 @@
         localStorage.setItem('gpromts:lang', state.lang);
         setActiveToggle('[data-lang]', state.lang, 'data-lang');
         applyI18n();
+        closeTranslateModal();
         hydrateFromData();
         enableCompactSelects();
       });
@@ -504,6 +619,7 @@
     bindLanguageToggle();
     bindModeToggle();
     bindThemeToggle();
+    bindTranslateTipModal();
   }
 
   function init() {

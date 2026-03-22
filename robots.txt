@@ -1,4 +1,5 @@
-﻿User-agent: *
+User-agent: *
 Allow: /
 
-# Sitemap: https://example.com/sitemap.xml
+# Mapa del sitio para Google y otros buscadores (Search Console → Sitemaps)
+Sitemap: https://jhormancastella.github.io/Gpromts/sitemap.xml

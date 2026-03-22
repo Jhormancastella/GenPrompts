@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -7,14 +7,25 @@
 <meta name="description" content="GPROMTS genera prompts profesionales para imágenes con IA. Crea escenas, estilos e iluminación en segundos.">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#0f0f1a">
+<!-- URL canónica (Google / redes): debe coincidir con la URL pública del sitio -->
+<link rel="canonical" href="https://jhormancastella.github.io/Gpromts/">
+<!--
+  Google Search Console (antes “herramientas para webmasters”):
+  1) https://search.google.com/search-console
+  2) Añadir propiedad → URL del sitio → Verificación → “Etiqueta HTML”
+  3) Copia solo el valor de content="..." y descomenta la meta siguiente:
+<meta name="google-site-verification" content="PEGA_AQUI_EL_CODIGO_DE_GOOGLE" />
+-->
 <meta property="og:title" content="GPROMTS | Prompt Generator">
 <meta property="og:description" content="Domina la IA con prompts precisos. Crea imágenes con estilo en segundos.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="assets/logo.png">
+<meta property="og:url" content="https://jhormancastella.github.io/Gpromts/">
+<meta property="og:image" content="https://jhormancastella.github.io/Gpromts/assets/logo.png">
+<meta property="og:locale" content="es_ES">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="GPROMTS | Prompt Generator">
 <meta name="twitter:description" content="Domina la IA con prompts precisos. Crea imágenes con estilo en segundos.">
-<meta name="twitter:image" content="assets/logo.png">
+<meta name="twitter:image" content="https://jhormancastella.github.io/Gpromts/assets/logo.png">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
 <link rel="shortcut icon" href="assets/favicon.ico">
@@ -257,15 +268,32 @@
 
   <!-- ========== OUTPUT ========== -->
   <div class="output-section">
-    <h3 data-i18n="output_title">📋 PROMPT GENERADO</h3>
-    <button class="copy-btn" data-i18n="copy_btn">Copiar</button>
+    <div class="output-header">
+      <h3 data-i18n="output_title">📋 PROMPT GENERADO</h3>
+      <div class="output-actions">
+        <button type="button" class="translate-tip-btn" id="translateTipBtn" data-i18n="translate_tip_btn" aria-haspopup="dialog" aria-controls="translateTipModal">
+          🌐 Traducir para más precisión
+        </button>
+        <button type="button" class="copy-btn" data-i18n="copy_btn">Copiar</button>
+      </div>
+    </div>
     <div id="promptOutput" data-i18n="output_hint">Selecciona las opciones y presiona "Generar Prompt"...</div>
     <div id="negativeOutput" style="display:none"></div>
   </div>
 
 </div>
 
+<div id="translateTipModal" class="modal-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="translateTipTitle">
+  <div class="modal-backdrop" data-close-modal tabindex="-1" aria-hidden="true"></div>
+  <div class="modal-panel">
+    <h4 id="translateTipTitle" data-i18n="translate_tip_title">¿Traducir el prompt al inglés?</h4>
+    <p data-i18n="translate_tip_body">El prompt ya se genera en español cuando la web está en español. Si tu herramienta de IA da mejores resultados en inglés, copia el texto, tradúcelo (DeepL, Google Translate, etc.) y pégalo en el generador.</p>
+    <button type="button" class="modal-close-btn" id="translateTipCloseBtn" data-i18n="translate_tip_close" data-close-modal>Entendido</button>
+  </div>
+</div>
+
 <script src="data.js"></script>
+<script src="data-es.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
