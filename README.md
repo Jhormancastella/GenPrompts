@@ -1,5 +1,5 @@
 
-# 📸 GPROMTS
+# 📸 GenPrompts
 
 ![Version](https://img.shields.io/badge/version-1.0-blue.svg)
 ![HTML5](https://img.shields.io/badge/HTML5-E34C26?style=flat&logo=html5&logoColor=white)
