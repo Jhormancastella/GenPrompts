@@ -162,6 +162,331 @@
           value: 'City park in autumn, golden leaves swirling, benches with warm light, soft sunset glow, calm atmosphere'
         }
       ]
+    },
+    {
+      label: '📸 Estudio / Foto',
+      options: [
+        {
+          label: '🎬 Estudio de cine profesional',
+          value: 'Professional film studio with dark walls, soft box lighting setup, backdrop screen, reflective floor, cinematic atmosphere',
+          valueEs: 'Estudio de cine profesional con paredes oscuras, configuración de iluminación soft box, pantalla de fondo, suelo reflectante, atmósfera cinematográfica'
+        },
+        {
+          label: '📷 Estudio de fotografía clásico',
+          value: 'Classic photography studio with white cyclorama wall, soft overhead lighting, modern furniture, clean minimalist aesthetic',
+          valueEs: 'Estudio de fotografía clásico con pared ciclorama blanca, iluminación superior suave, mobiliario moderno, estética minimalista limpia'
+        },
+        {
+          label: '💡 Estudio con luces de neón',
+          value: 'Modern photo studio with neon tube lights, colored LED panels, urban backdrop, creative lighting setup',
+          valueEs: 'Estudio fotográfico moderno con tubos de neón, paneles LED de colores, fondo urbano, configuración de iluminación creativa'
+        },
+        {
+          label: '🪞 Estudio con espejos',
+          value: 'Photo studio with large mirrors on walls, professional lighting rigs, sleek contemporary design, open space',
+          valueEs: 'Estudio fotográfico con espejos grandes en las paredes, rigs de iluminación profesionales, diseño contemporáneo elegante, espacio abierto'
+        },
+        {
+          label: '🎪 Estudio de moda',
+          value: 'Fashion studio with runway platform, professional spotlights, wardrobe racks, editorial backdrop, glamorous atmosphere',
+          valueEs: 'Estudio de moda con plataforma de pasarela, spotlights profesionales, percheros, fondo editorial, atmósfera glamorosa'
+        },
+        {
+          label: '🖼️ Estudio con fondos de colores',
+          value: 'Photo studio with colored paper backdrops in various vibrant colors, soft continuous lighting, professional portrait setup',
+          valueEs: 'Estudio fotográfico con fondos de papel de colores vibrantes, iluminación continua suave, configuración de retrato profesional'
+        },
+        {
+          label: '📸 Rincón de productos',
+          value: 'Product photography corner with white seamless background, softbox lighting, reflective surface, clean commercial look',
+          valueEs: 'Rincón de fotografía de productos con fondo blanco continuo, iluminación softbox, superficie reflectante, aspecto comercial limpio'
+        },
+        {
+          label: '🎭 Estudio con telón',
+          value: 'Studio with dramatic curtain backdrop, theatrical lighting, vintage feel, dramatic shadows and highlights',
+          valueEs: 'Estudio con telón de fondo dramático, iluminación teatral, sensación vintage, sombras y luces dramáticas'
+        }
+      ]
+    },
+    {
+      label: '🌳 Parques y Naturaleza',
+      options: [
+        {
+          label: '🌳 Parque urbano con árboles',
+          value: 'Urban park with tall green trees, grass lawn, walking paths, people in distance, afternoon sunlight filtering through leaves',
+          valueEs: 'Parque urbano con árboles verdes altos, Césped, senderos para caminar, personas al fondo, luz de la tarde filtrándose entre las hojas'
+        },
+        {
+          label: '🌿 Jardín botánico',
+          value: 'Botanical garden with exotic plants, greenhouse in background, stone pathways, lush green vegetation, peaceful atmosphere',
+          valueEs: 'Jardín botánico con plantas exóticas, invernadero al fondo, caminos de piedra, vegetación verde exuberante, atmósfera pacífica'
+        },
+        {
+          label: '🌲 Bosque urbano',
+          value: 'Urban forest with dense trees, natural light filtering through canopy, soft grass floor, nature within city',
+          valueEs: 'Bosque urbano con árboles densos, luz natural filtrándose por el dosel, suelo de hierba suave, naturaleza dentro de la ciudad'
+        },
+        {
+          label: '🌸 Jardín público con flores',
+          value: 'Public garden with colorful flower beds, manicured lawns, decorative fountains, benches, springtime atmosphere',
+          valueEs: 'Jardín público con canteros de flores coloridos, Césped cuidado, fuentes decorativas, bancos, atmósfera de primavera'
+        },
+        {
+          label: '🍃 Parque con lago',
+          value: 'Park with small lake, ducks swimming, willow trees on shore, wooden dock, peaceful natural setting',
+          valueEs: 'Parque con lago pequeño, patos nadando, sauces en la orilla, muelle de madera, entorno natural pacífico'
+        },
+        {
+          label: '🌺 Jardín tropical exuberante',
+          value: 'Lush tropical garden with large palm trees, exotic flowers, dense greenery, humid atmosphere, natural light',
+          valueEs: 'Jardín tropical exuberante con palmeras grandes, flores exóticas, vegetación densa, atmósfera húmeda, luz natural'
+        },
+        {
+          label: '🪨 Jardín zen',
+          value: 'Japanese zen garden with raked sand patterns, moss-covered rocks, bamboo fence, peaceful minimalist design',
+          valueEs: 'Jardín zen japonés con patrones de arena rastrillada, rocas cubiertas de musgo, cerca de bambú, diseño minimalista pacífico'
+        },
+        {
+          label: '🌻 Campo de girasoles',
+          value: 'Sunflower field stretching to horizon, tall yellow flowers, blue sky with white clouds, warm summer light',
+          valueEs: 'Campo de girasoles extendiéndose hasta el horizonte, flores amarillas altas, cielo azul con nubes blancas, luz cálida de verano'
+        }
+      ]
+    },
+    {
+      label: '🏠 Interiores Caseros',
+      options: [
+        {
+          label: '🛋️ Sala moderna',
+          value: 'Modern living room with comfortable sofa, coffee table, large window with natural light, minimalist decor, neutral colors',
+          valueEs: 'Sala moderna con sofá cómodo, mesa de centro, ventana grande con luz natural, decoración minimalista, colores neutros'
+        },
+        {
+          label: '🪟 Cuarto con ventana grande',
+          value: 'Bedroom with large window, soft bed, warm lighting, cozy atmosphere, personal belongings visible, homey feel',
+          valueEs: 'Dormitorio con ventana grande, cama suave, iluminación cálida, atmósfera acogedora, objetos personales visibles, sensación hogareña'
+        },
+        {
+          label: '☕ Cocina acogedora',
+          value: 'Cozy kitchen with wooden cabinets, warm counter lighting, plants on windowsill, homey appliances, inviting atmosphere',
+          valueEs: 'Cocina acogedora con armarios de madera, iluminación cálida de mostrador, plantas en el alféizar, electrodomésticos hogareños, atmósfera invitante'
+        },
+        {
+          label: '📚 Estudio en casa',
+          value: 'Home office study with bookshelf, desk, lamp, computer, personal items, warm and productive atmosphere',
+          valueEs: 'Estudio de oficina en casa con estantería, escritorio, lámpara, computadora, objetos personales, atmósfera cálida y productiva'
+        },
+        {
+          label: '🛁 Baño elegante',
+          value: 'Elegant bathroom with marble surfaces, large mirror, soft lighting, plants, modern fixtures, spa-like atmosphere',
+          valueEs: 'Baño elegante con superficies de mármol, espejo grande, iluminación suave, plantas, accesorios modernos, atmósfera tipo spa'
+        },
+        {
+          label: '🍳 Comedor familiar',
+          value: 'Family dining room with wooden table, chairs, warm lighting, window view, home-cooked meal atmosphere',
+          valueEs: 'Comedor familiar con mesa de madera, sillas, iluminación cálida, vista a la ventana, atmósfera de comida casera'
+        },
+        {
+          label: '🌿 Terraza con plantas',
+          value: 'Terrace with potted plants, comfortable seating, string lights, urban view, relaxed outdoor living space',
+          valueEs: 'Terraza con plantas en macetas, asientos cómodos, luces colgantes, vista urbana, espacio de vida al aire libre relajado'
+        },
+        {
+          label: '🪵 Chimenea acogedora',
+          value: 'Cozy room with fireplace, warm lighting, comfortable furniture, books, soft textures, intimate atmosphere',
+          valueEs: 'Habitación acogedora con chimenea, iluminación cálida, mobiliario cómodo, libros, texturas suaves, atmósfera íntima'
+        }
+      ]
+    },
+    {
+      label: '🏙️ Urbano Casual',
+      options: [
+        {
+          label: '☕ Calle con cafeterías',
+          value: 'Bustling street with cafes and outdoor seating, people walking, awnings, warm afternoon light, urban life',
+          valueEs: 'Calle concurrida con cafeterías y asientos al aire libre, personas caminando, toldos, luz cálida de la tarde, vida urbana'
+        },
+        {
+          label: '🚶 Calle comercial concurrida',
+          value: 'Busy commercial street with shops, pedestrians, street signs, urban buildings, dynamic city atmosphere',
+          valueEs: 'Calle comercial concurrida con tiendas, peatones, señalización urbana, edificios urbanos, atmósfera dinámica de ciudad'
+        },
+        {
+          label: '🏪 Mercado local',
+          value: 'Local market with fresh produce stands, colorful fruits and vegetables, bustling activity, authentic local feel',
+          valueEs: 'Mercado local con puestos de productos frescos, frutas y verduras coloridas, actividad bulliciosa, sensación auténtica local'
+        },
+        {
+          label: '🚉 Estación de tren',
+          value: 'Train station with platform, tracks in distance, travelers, architectural details, travel atmosphere',
+          valueEs: 'Estación de tren con andén, vías al fondo, viajeros, detalles arquitectónicos, atmósfera de viaje'
+        },
+        {
+          label: '🛤️ Andén urbano',
+          value: 'Urban train platform at sunset, tracks stretching to horizon, soft golden light, waiting area',
+          valueEs: 'Andén urbano al atardecer, vías extendiéndose hasta el horizonte, luz dorada suave, área de espera'
+        },
+        {
+          label: '🎨 Calle con arte urbano',
+          value: 'Street with colorful murals and graffiti art, urban wall art, creative street environment, vibrant atmosphere',
+          valueEs: 'Calle con murales coloridos y arte graffiti, arte urbano en paredes, entorno callejero creativo, atmósfera vibrante'
+        },
+        {
+          label: '🏗️ Construcción urbana',
+          value: 'Urban construction site with scaffolding, cranes, building materials, city skyline in background',
+          valueEs: 'Sitio de construcción urbana con andamios, grúas, materiales de construcción, silueta de la ciudad al fondo'
+        },
+        {
+          label: '🌙 Plaza nocturna',
+          value: 'City square at night with soft ambient lighting, empty benches, landmark building, quiet urban evening',
+          valueEs: 'Plaza de la ciudad de noche con iluminación ambiental suave, bancos vacíos, edificio emblemáticos, tarde urbana silenciosa'
+        }
+      ]
+    },
+    {
+      label: '🏛️ Locaciones Profesionales',
+      options: [
+        {
+          label: '🏢 Oficina corporativa',
+          value: 'Corporate office with glass walls, modern furniture, city view, professional environment, bright natural light',
+          valueEs: 'Oficina corporativa con paredes de vidrio, mobiliario moderno, vista a la ciudad, entorno profesional, luz natural brillante'
+        },
+        {
+          label: '⚕️ Clínica / Consultorio',
+          value: 'Medical clinic or professional office with clean surfaces, modern equipment, sterile yet welcoming atmosphere',
+          valueEs: 'Clínica médica u oficina profesional con superficies limpias, equipo moderno, atmósfera estéril pero acogedora'
+        },
+        {
+          label: '📊 Sala de juntas',
+          value: 'Conference room with large table, chairs, presentation screen, professional lighting, business atmosphere',
+          valueEs: 'Sala de juntas con mesa grande, sillas, pantalla de presentación, iluminación profesional, atmósfera de negocios'
+        },
+        {
+          label: '🎓 Aula / Universidad',
+          value: 'University classroom or lecture hall with desks, chalkboard, windows, academic atmosphere, natural light',
+          valueEs: 'Aula universitaria o salón de clases con pupitres, pizarra, ventanas, atmósfera académica, luz natural'
+        },
+        {
+          label: '🏦 Banco / Institución',
+          value: 'Bank or financial institution with marble floors, professional desks, security features, formal atmosphere',
+          valueEs: 'Banco o institución financiera con pisos de mármol, escritorios profesionales, medidas de seguridad, atmósfera formal'
+        },
+        {
+          label: '✈️ Aeropuerto / Terminal',
+          value: 'Airport terminal with large windows, departure boards, travelers, modern architectural design, busy atmosphere',
+          valueEs: 'Terminal de aeropuerto con ventanas grandes, tableros de salidas, viajeros, diseño arquitectónico moderno, atmósfera concurrida'
+        },
+        {
+          label: '🏥 Hospital moderno',
+          value: 'Modern hospital corridor with clean white walls, medical equipment, soft lighting, sterile professional environment',
+          valueEs: 'Corredor de hospital moderno con paredes blancas limpias, equipo médico, iluminación suave, entorno profesional estéril'
+        },
+        {
+          label: '🎼 Sala de conciertos',
+          value: 'Concert hall or music venue with stage, seating, dramatic lighting, acoustic panels, artistic atmosphere',
+          valueEs: 'Sala de conciertos o venue musical con escenario, asientos, iluminación dramática, paneles acústicos, atmósfera artística'
+        }
+      ]
+    },
+    {
+      label: '🧒 Infantil / Niños',
+      options: [
+        {
+          label: '🎨 Fondo de caricaturas coloridas',
+          value: 'Colorful cartoon background with bright fun patterns, cartoon stars and shapes, playful vibrant atmosphere',
+          valueEs: 'Fondo de caricaturas coloridas con patrones divertidos brillante, estrellas y formas de cartoon, atmósfera vibrante y lúdica'
+        },
+        {
+          label: '🦸 Fondo de súper héroes',
+          value: 'Superhero themed background with comic book style, dynamic action pose, bold colors and dramatic lighting',
+          valueEs: 'Fondo temático de súper héroes estilo cómic, pose dinámica de acción, colores boldly dramáticos e iluminación'
+        },
+        {
+          label: '👸 Fondo de princesas',
+          value: 'Princess themed background with castle elements, sparkly pink and purple palette, magical fairytale atmosphere',
+          valueEs: 'Fondo temático de princesa con elementos de castillo, paleta rosa y púrpura brillante, atmósfera de cuento de hadas'
+        },
+        {
+          label: '🦕 Fondo de dinosaurios',
+          value: 'Dinosaur themed background with prehistoric jungle setting, green and brown tones, adventurous atmosphere',
+          valueEs: 'Fondo temático de dinosaurios con selva prehistórica, tonos verdes y marrones, atmósfera aventurera'
+        },
+        {
+          label: '🦄 Fondo de unicornios',
+          value: 'Unicorn themed background with rainbow and sparkles, pastel colors, magical whimsical atmosphere',
+          valueEs: 'Fondo temático de unicornios con arcoíris y destellos, colores pastel, atmósfera mágica y fantástica'
+        },
+        {
+          label: '🏰 Fondo de castillo',
+          value: 'Fairytale castle background with towers and flags, medieval architecture, majestic royal atmosphere',
+          valueEs: 'Fondo de castillo de cuento de hadas con torres y banderas, arquitectura medieval, atmósfera real majestuosa'
+        },
+        {
+          label: '🎪 Fondo de circo',
+          value: 'Circus themed background with tents and balloons, bright red and yellow colors, fun festive atmosphere',
+          valueEs: 'Fondo temático de circo con carpas y globos, colores rojo y amarillo brillante, atmósfera festiva divertida'
+        },
+        {
+          label: '🚀 Fondo espacial infantil',
+          value: 'Child-friendly space background with planets and stars, colorful cartoon rockets, dreamy sci-fi atmosphere',
+          valueEs: 'Fondo espacial infantil con planetas y estrellas, cohetes de cartoon coloridos, atmósfera de ciencia ficción onírica'
+        },
+        {
+          label: '🐱 Fondo de animales tiernos',
+          value: 'Cute animal background with fluffy kittens and puppies, soft pastel colors, warm friendly atmosphere',
+          valueEs: 'Fondo de animales tiernos con gatitos y cachorros suaves, colores pastel suaves, atmósfera cálida amigable'
+        },
+        {
+          label: '🎮 Fondo de videojuegos',
+          value: 'Video game themed background with pixel art style, retro gaming elements, nostalgic fun atmosphere',
+          valueEs: 'Fondo temático de videojuegos estilo pixel art, elementos de gaming retro, atmósfera divertida nostálgica'
+        }
+      ]
+    },
+    {
+      label: '📸 Estudio Profesional',
+      options: [
+        {
+          label: '⬜ Fondo sólido monocromático',
+          value: 'Solid color seamless background, uniform surface without texture, clean minimalist look, professional studio lighting',
+          valueEs: 'Fondo sólido de un color, superficie uniforme sin textura, aspecto minimalista limpio, iluminación de estudio profesional'
+        },
+        {
+          label: '🌫️ Fondo degradado',
+          value: 'Gradient background with smooth color transition, light to dark fade, creates depth and dimension, soft lighting',
+          valueEs: 'Fondo degradado con transición suave de color, desvanecimiento claro a oscuro, crea profundidad y dimensión, iluminación suave'
+        },
+        {
+          label: '💡 Fondo con luz proyectada',
+          value: 'Background with projected light shapes, circles and soft patterns, creative lighting design, modern aesthetic',
+          valueEs: 'Fondo con formas de luz proyectada, círculos y patrones suaves, diseño de iluminación creativa, estética moderna'
+        },
+        {
+          label: '✨ Fondo con brillo controlado',
+          value: 'Solid background with controlled highlight areas, soft shadows and glow effects, dimensional studio setup',
+          valueEs: 'Fondo sólido con áreas de brillo controlado, efectos de sombras suaves y resplandor, configuración de estudio dimensional'
+        },
+        {
+          label: '⬛ Fondo negro profundo',
+          value: 'Deep black seamless background, pure black surface for high contrast, dramatic studio lighting, editorial look',
+          valueEs: 'Fondo negro puro seamless, superficie negra pura para alto contraste, iluminación de estudio dramática, look editorial'
+        },
+        {
+          label: '⬜ Fondo blanco limpio',
+          value: 'Clean white seamless background, pure white surface for bright portraits, soft diffused lighting, commercial photography',
+          valueEs: 'Fondo blanco limpio seamless, superficie blanca pura para retratos brillantes, iluminación difusa suave, fotografía comercial'
+        },
+        {
+          label: '🎭 Fondo de tela/textura',
+          value: 'Fabric textured background with elegant drapes, flowing cloth elements, classic portrait studio setting',
+          valueEs: 'Fondo con textura de tela con elegantes drapeados, elementos de tela fluyendo, configuración de estudio de retrato clásico'
+        },
+        {
+          label: '🌈 Fondo de colores vibrantes',
+          value: 'Vibrant colored background, bold saturated colors for creative shoots, dynamic studio lighting, fashion photography',
+          valueEs: 'Fondo de colores vibrantes, colores saturados bold para sesiones creativas, iluminación dinámica, fotografía de moda'
+        }
+      ]
     }
   ],
   atmosphere: [
