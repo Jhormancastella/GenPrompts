@@ -16,8 +16,8 @@
       mode_basic: 'Básico',
       mode_advanced: 'Avanzado',
       guide_title: 'GUÍA RÁPIDA (2 MIN)',
-      guide_step_1: 'Define el sujeto. Si usas una imagen de referencia, deja “Mantener de referencia”.',
-      guide_step_2: 'Elige fondo y atmósfera. Aquí creas el escenario y el “ambiente”.',
+      guide_step_1: 'Define el sujeto. Si usas una imagen de referencia, deja "Mantener de referencia".',
+      guide_step_2: 'Elige fondo y atmósfera. Aquí creas el escenario y el "ambiente".',
       guide_step_3: 'Ajusta iluminación y estilo. Esto define el look final (fotografía, cine, arte).',
       guide_step_4: 'Selecciona plataforma y formato. Cada IA tiene pequeñas reglas.',
       guide_tip: 'Prompts más claros y específicos = mejores resultados. Evita mezclar demasiados estilos.',
@@ -58,11 +58,11 @@
         'El prompt ya se genera en español cuando la web está en español. Si tu herramienta de IA da mejores resultados en inglés, copia el texto, tradúcelo (DeepL, Google Translate, etc.) y pégalo en el generador.'
     },
     en: {
-      slogan: 'Master AI, don’t wrestle with it. Precise prompts for epic results.',
+      slogan: 'Master AI, don\'t wrestle with it. Precise prompts for epic results.',
       mode_basic: 'Basic',
       mode_advanced: 'Advanced',
       guide_title: 'QUICK GUIDE (2 MIN)',
-      guide_step_1: 'Define the subject. If you use a reference image, keep “Reference”.',
+      guide_step_1: 'Define the subject. If you use a reference image, keep "Reference".',
       guide_step_2: 'Choose background and atmosphere. This sets the scene and ambience.',
       guide_step_3: 'Adjust lighting and style. This defines the final look (photo, cinema, art).',
       guide_step_4: 'Select platform and format. Each AI has small rules.',
@@ -97,7 +97,7 @@
       platform_tip: 'Each platform interprets prompts differently. We auto-adjust the final format.',
       generate_btn: '✨ GENERATE PROMPT ✨',
       output_title: '📋 GENERATED PROMPT',
-      output_hint: 'Choose options and press “Generate Prompt”...',
+      output_hint: 'Choose options and press "Generate Prompt"...',
       copy_btn: 'Copy',
       negative_label: 'NEGATIVE:',
       translate_tip_body:
@@ -318,7 +318,7 @@
   }
 
   function setupCollapse() {
-    $('.section').forEach((section) => {
+    $$('.section').forEach((section) => {
       const header = section.querySelector('.section-header');
       const content = section.querySelector('.section-content');
       const arrow = section.querySelector('.toggle-arrow');
